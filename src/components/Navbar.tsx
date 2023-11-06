@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import SignInButton from "./SignInButton";
 import Image from "next/image";
 import UserNav from "./UserNav";
+import ThemeToggle from "./ThemeToggle";
 
 type Props = {};
 
@@ -18,8 +19,8 @@ const Navbar = async (props: Props) => {
             Quizmo
           </p>
         </Link>
-        <div className="flex gap-2 items-center">
-          <Button>O</Button>
+        <div className="flex gap-4 items-center">
+          <ThemeToggle />
           {session?.user ? (
             <UserNav user={session.user} />
           ) : (

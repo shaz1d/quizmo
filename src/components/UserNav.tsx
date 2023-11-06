@@ -6,6 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Image from "next/image";
+import SignOutButton from "./SignOutButton";
 type Props = {
   user: Pick<User, "name" | "image" | "email">;
 };
@@ -23,10 +24,15 @@ const UserNav = ({ user }: Props) => {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
+        <DropdownMenuItem>
+          <div>
+            <p className="text-base font-medium">{user.name}</p>
+            <p className="text-xs text-gray-600">{user.email}</p>
+          </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <SignOutButton text="Sign Out" />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
