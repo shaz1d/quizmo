@@ -2,7 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "../ui/card";
 
 type Props = {};
 
@@ -16,10 +22,11 @@ const RecentActivityCard = (props: Props) => {
     >
       <CardHeader>
         <CardTitle className="text-2xl">Recent Activity</CardTitle>
+        <CardDescription>
+          <p>You have played a total of 43 quizes</p>
+        </CardDescription>
       </CardHeader>
-      <CardContent>
-        <p>You have played a total of 43 quizes</p>
-      </CardContent>
+      <CardContent></CardContent>
     </Card>
   );
 };

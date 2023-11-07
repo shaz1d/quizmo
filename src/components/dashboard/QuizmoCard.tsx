@@ -1,7 +1,13 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 import { useRouter } from "next/navigation";
 
 type Props = {};
@@ -16,10 +22,11 @@ const QuizmoCard = (props: Props) => {
     >
       <CardHeader>
         <CardTitle className="text-2xl">Quiz Me! 🚀</CardTitle>
+        <CardDescription>
+          <p>Challange yourself with a quiz!</p>
+        </CardDescription>
       </CardHeader>
-      <CardContent>
-        <p>Challange yourself with a quiz!</p>
-      </CardContent>
+      <CardContent></CardContent>
     </Card>
   );
 };

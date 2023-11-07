@@ -2,7 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "../ui/card";
+import CustomWordCloud from "../CustomWordCloud";
 
 type Props = {};
 
@@ -16,9 +23,12 @@ const HotTopicsCard = (props: Props) => {
     >
       <CardHeader>
         <CardTitle className="text-2xl">Hot Topics 🔥</CardTitle>
+        <CardDescription>
+          <p>Click on a topic to start a quiz on it!</p>
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Click on a topic to start a quiz on it!</p>
+        <CustomWordCloud />
       </CardContent>
     </Card>
   );
