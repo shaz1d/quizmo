@@ -30,9 +30,9 @@ const CustomWordCloud = (props: Props) => {
   return (
     <D3WordCloud
       data={data}
-      width={500}
-      height={500}
-      font="Times"
+      width={400}
+      height={400}
+      font="Inter"
       fontSize={fontSizeMapper}
       rotate={0}
       padding={10}
