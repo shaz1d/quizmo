@@ -24,11 +24,25 @@ import {
   FormMessage,
 } from "./ui/form";
 import { BookOpen, CopyCheck } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 type Input = z.infer<typeof createQuizSchema>;
 
 const CreateQuiz = (props: Props) => {
+  const router = useRouter();
+  const { mutate: getQuestions } = useMutation({
+    mutationFn: async ({ amount, topic, type }: Input) => {
+      const response = await axios.post(`${process.env.API_URL}/api/game`, {
+        amount,
+        topic,
+        type,
+      });
+      return response.data;
+    },
+  });
   const form = useForm<Input>({
     resolver: zodResolver(createQuizSchema),
     defaultValues: {
@@ -40,7 +54,22 @@ const CreateQuiz = (props: Props) => {
   form.watch();
 
   const onSubmit = (input: Input) => {
-    alert(JSON.stringify(input, null, 2));
+    getQuestions(
+      {
+        amount: input.amount,
+        topic: input.topic,
+        type: input.type,
+      },
+      {
+        onSuccess: ({ gameId }) => {
+          if (form.getValues("type") == "open_ended") {
+            router.push(`/play/open-ended/${gameId}`);
+          } else {
+            router.push(`/play/mcq/${gameId}`);
+          }
+        },
+      }
+    );
   };
   return (
     <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
