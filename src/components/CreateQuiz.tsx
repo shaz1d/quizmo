@@ -33,9 +33,9 @@ type Input = z.infer<typeof createQuizSchema>;
 
 const CreateQuiz = (props: Props) => {
   const router = useRouter();
-  const { mutate: getQuestions } = useMutation({
+  const { mutate: getQuestions, isPending } = useMutation({
     mutationFn: async ({ amount, topic, type }: Input) => {
-      const response = await axios.post(`${process.env.API_URL}/api/game`, {
+      const response = await axios.post("/api/game", {
         amount,
         topic,
         type,
@@ -61,12 +61,19 @@ const CreateQuiz = (props: Props) => {
         type: input.type,
       },
       {
-        onSuccess: ({ gameId }) => {
-          if (form.getValues("type") == "open_ended") {
-            router.push(`/play/open-ended/${gameId}`);
-          } else {
-            router.push(`/play/mcq/${gameId}`);
-          }
+        onSuccess: (e) => {
+          console.log(e);
+          // if (form.getValues("type") == "open_ended") {
+          //   router.push(`/play/open-ended/${e}`);
+          // } else {
+          //   router.push(`/play/mcq/3}`);
+          // }
+        },
+        onError(error, variables, context) {
+          alert({
+            error,
+            variables,
+          });
         },
       }
     );
@@ -142,7 +149,9 @@ const CreateQuiz = (props: Props) => {
                   Open Ended
                 </Button>
               </div>
-              <Button type="submit">Submit</Button>
+              <Button disabled={isPending} type="submit">
+                Submit
+              </Button>
             </form>
           </Form>
         </CardContent>

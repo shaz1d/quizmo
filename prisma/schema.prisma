@@ -84,3 +84,8 @@ model Question {
 
   @@index([gameId], name: "gameId")
 }
+
+model Test {
+  id      String @id @default(cuid())
+  message String
+}

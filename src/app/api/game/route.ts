@@ -20,64 +20,77 @@ export async function POST(req: Request, res: Response) {
     // }
     const body = await req.json();
     const { amount, topic, type } = createQuizSchema.parse(body);
-    const game = await prisma.game.create({
+    const test = await prisma.test.create({
       data: {
-        gameType: type,
-        timeStarted: new Date(),
-        userId: session?.user.id as string,
-        topic,
+        message: topic,
       },
     });
-    const { data } = await axios.post(`${process.env.API_URL}/api/questions`, {
-      amount,
-      topic,
-      type,
+    const game = await prisma.game.create({
+      data: {
+        userId: session?.user.id || "undefined",
+        timeStarted: new Date(),
+        topic,
+        gameType: type,
+      },
     });
+    // const game = await prisma.game.create({
+    //   data: {
+    //     gameType: type,
+    //     timeStarted: new Date(),
+    //     userId: session?.user.id as string,
+    //     topic,
+    //   },
+    // });
+    // const { data } = await axios.post(`${process.env.API_URL}/api/questions`, {
+    //   amount,
+    //   topic,
+    //   type,
+    // });
 
-    if (type === "mcq") {
-      type mcqQuestion = {
-        question: string;
-        answer: string;
-        option1: string;
-        option2: string;
-        option3: string;
-      };
-      let manyData = data.questions.map((question: mcqQuestion) => {
-        let options = [
-          question.answer,
-          question.option1,
-          question.option2,
-          question.option3,
-        ];
-        options = options.sort(() => Math.random() - 0.5);
-        return {
-          question: question.question,
-          answer: question.answer,
-          options: JSON.stringify(options),
-          gameId: game.id,
-          questionType: "mcq",
-        };
-      });
-      await prisma.question.createMany({
-        data: manyData,
-      });
-    } else if (type === "open_ended") {
-      type openEndedQuestion = {
-        question: string;
-        answer: string;
-      };
-      let manyData = data.question.map((question: openEndedQuestion) => {
-        return {
-          question: question.question,
-          answer: question.answer,
-          gameId: game.id,
-          questionType: "open_ended",
-        };
-      });
-      await prisma.question.createMany({
-        data: manyData,
-      });
-    }
+    // if (type === "mcq") {
+    //   type mcqQuestion = {
+    //     question: string;
+    //     answer: string;
+    //     option1: string;
+    //     option2: string;
+    //     option3: string;
+    //   };
+    //   let manyData = data.questions.map((question: mcqQuestion) => {
+    //     let options = [
+    //       question.answer,
+    //       question.option1,
+    //       question.option2,
+    //       question.option3,
+    //     ];
+    //     options = options.sort(() => Math.random() - 0.5);
+    //     return {
+    //       question: question.question,
+    //       answer: question.answer,
+    //       options: JSON.stringify(options),
+    //       gameId: game.id,
+    //       questionType: "mcq",
+    //     };
+    //   });
+    //   await prisma.question.createMany({
+    //     data: manyData,
+    //   });
+    // } else if (type === "open_ended") {
+    //   type openEndedQuestion = {
+    //     question: string;
+    //     answer: string;
+    //   };
+    //   let manyData = data.question.map((question: openEndedQuestion) => {
+    //     return {
+    //       question: question.question,
+    //       answer: question.answer,
+    //       gameId: game.id,
+    //       questionType: "open_ended",
+    //     };
+    //   });
+    //   await prisma.question.createMany({
+    //     data: manyData,
+    //   });
+    // }
     return NextResponse.json({
       gameId: game.id,
     });
@@ -89,6 +102,8 @@ export async function POST(req: Request, res: Response) {
           status: 400,
         }
       );
+    } else {
+      return NextResponse.json({ error });
     }
   }
 }
