@@ -1,9 +1,13 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  params: {
+    gameId: string;
+  };
+};
 
-const MCQpage = (props: Props) => {
-  return <div>MCQpage</div>;
+const MCQpage = ({ params: { gameId } }: Props) => {
+  return <div>{gameId}</div>;
 };
 
 export default MCQpage;

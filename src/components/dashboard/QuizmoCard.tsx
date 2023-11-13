@@ -22,9 +22,7 @@ const QuizmoCard = (props: Props) => {
     >
       <CardHeader>
         <CardTitle className="text-2xl">Quiz Me! 🚀</CardTitle>
-        <CardDescription>
-          <p>Challange yourself with a quiz!</p>
-        </CardDescription>
+        <CardDescription>Challange yourself with a quiz!</CardDescription>
       </CardHeader>
       <CardContent></CardContent>
     </Card>

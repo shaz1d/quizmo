@@ -4,26 +4,25 @@ import { createQuizSchema } from "@/schemas/form/quiz";
 import { ZodError } from "zod";
 import { prisma } from "@/lib/db";
 import axios from "axios";
-import { Prisma } from "@prisma/client";
 
 export async function POST(req: Request, res: Response) {
+  const session = await getAuthSession();
+  if (!session?.user) {
+    return NextResponse.json(
+      {
+        error: "You must be loged in",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
   try {
-    const session = await getAuthSession();
-    // if (!session?.user) {
-    //   return NextResponse.json(
-    //     {
-    //       error: "You must be loged in",
-    //     },
-    //     {
-    //       status: 401,
-    //     }
-    //   );
-    // }
     const body = await req.json();
     const { amount, topic, type } = createQuizSchema.parse(body);
     const game = await prisma.game.create({
       data: {
-        userId: session?.user.id || "undefined",
+        userId: session.user.id,
         timeStarted: new Date(),
         topic,
         gameType: type,
