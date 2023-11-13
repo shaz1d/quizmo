@@ -17,7 +17,7 @@ const Quiz = async (props: Props) => {
 
   return (
     <main className="p-8 mx-auto max-w-7xl min-h-screen">
-      <CreateQuiz></CreateQuiz>
+      <CreateQuiz session={session.user.id}></CreateQuiz>
     </main>
   );
 };

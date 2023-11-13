@@ -10,9 +10,7 @@ import {
 } from "../ui/card";
 import { useRouter } from "next/navigation";
 
-type Props = {};
-
-const QuizmoCard = (props: Props) => {
+const QuizmoCard = () => {
   const router = useRouter();
   return (
     <Card

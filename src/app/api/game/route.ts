@@ -6,23 +6,23 @@ import { prisma } from "@/lib/db";
 import axios from "axios";
 
 export async function POST(req: Request, res: Response) {
-  const session = await getAuthSession();
-  if (!session?.user) {
-    return NextResponse.json(
-      {
-        error: "You must be loged in",
-      },
-      {
-        status: 401,
-      }
-    );
-  }
   try {
+    const session = await getAuthSession();
+    // if (!session?.user) {
+    //   return NextResponse.json(
+    //     {
+    //       error: "You must be loged in",
+    //     },
+    //     {
+    //       status: 401,
+    //     }
+    //   );
+    // }
     const body = await req.json();
     const { amount, topic, type } = createQuizSchema.parse(body);
     const game = await prisma.game.create({
       data: {
-        userId: session.user.id,
+        userId: session?.user.id || "user1",
         timeStarted: new Date(),
         topic,
         gameType: type,
