@@ -61,13 +61,12 @@ const CreateQuiz = (props: Props) => {
         type: input.type,
       },
       {
-        onSuccess: (e) => {
-          console.log(e);
-          // if (form.getValues("type") == "open_ended") {
-          //   router.push(`/play/open-ended/${e}`);
-          // } else {
-          //   router.push(`/play/mcq/3}`);
-          // }
+        onSuccess: ({ gameId }: { gameId: string }) => {
+          if (form.getValues("type") == "open_ended") {
+            router.push(`/play/open-ended/${gameId}`);
+          } else {
+            router.push(`/play/mcq/${gameId}`);
+          }
         },
         onError(error, variables, context) {
           alert({

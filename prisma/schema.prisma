@@ -78,14 +78,9 @@ model Question {
   percentageCorrect Float? //for open ended questions
   questionType      GameType
   isCorrect         Boolean? //for mcq questions
-  userAnswer        String
+  userAnswer        String?
 
   game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
 
   @@index([gameId], name: "gameId")
-}
-
-model Test {
-  id      String @id @default(cuid())
-  message String
 }
