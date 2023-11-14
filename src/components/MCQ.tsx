@@ -1,15 +1,23 @@
 "use client";
 
 import { Game, Question } from "@prisma/client";
-import { CheckCircle2, XCircleIcon, Timer, ChevronRight } from "lucide-react";
+import {
+  CheckCircle2,
+  XCircleIcon,
+  Timer,
+  ChevronRight,
+  Loader2,
+  BarChart,
+} from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { Card, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { z } from "zod";
 import { checkAnswerSchema } from "@/schemas/form/quiz";
 import { useToast } from "./ui/use-toast";
+import Link from "next/link";
 
 type Props = {
   game: Game & {
@@ -21,6 +29,7 @@ const MCQ = ({ game }: Props) => {
   const [choiceSelected, setChoiceSelected] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [hasEnded, setHasEnded] = useState(false);
 
   const { toast } = useToast();
   const currentQuestion = useMemo(() => {
@@ -48,8 +57,9 @@ const MCQ = ({ game }: Props) => {
   });
 
   const handleNext = useCallback(() => {
+    if (isChecking) return;
     checkAnswer(undefined, {
-      onSuccess: ({ isCorrect }) => {
+      onSuccess: ({ isCorrect, correctAnswer }) => {
         if (isCorrect) {
           toast({
             title: "Correct",
@@ -60,14 +70,34 @@ const MCQ = ({ game }: Props) => {
         } else {
           toast({
             title: "Incorrect",
-            description: "Incorrect Answer",
+            description: `Correct Answer: ${correctAnswer}`,
             variant: "destructive",
           });
           setWrongAnswers((prev) => prev + 1);
         }
+        if (questionIndex === game.questions.length - 1) {
+          setHasEnded(true);
+          return;
+        }
+        setQuestionIndex((prev) => prev + 1);
       },
     });
-  }, [checkAnswer, toast]);
+  }, [checkAnswer, toast, questionIndex, game.questions.length, isChecking]);
+
+  if (hasEnded) {
+    return (
+      <div className="w-full h-auto max-w-md  shadow-lg rounded-lg p-8 flex flex-col items-center">
+        <p className="bg-green-500 text-white px-3 py-2 w-full rounded-md mb-3">
+          You Completed in 4m 45s
+        </p>
+        <Link href={`/statistics/${game.id}`} className={buttonVariants()}>
+          {" "}
+          View Statistics <BarChart className="w-4 h-4 ml-1" />
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-lg flex flex-col">
       <p>
@@ -128,9 +158,15 @@ const MCQ = ({ game }: Props) => {
       </div>
       <Button
         className=" mt-5 self-center items-center gap-2"
+        disabled={isChecking}
         onClick={() => handleNext()}
       >
-        Next <ChevronRight className="h-4 w-4 mt-[2px]" />
+        Next{" "}
+        {isChecking ? (
+          <Loader2 />
+        ) : (
+          <ChevronRight className="h-4 w-4 mt-[2px]" />
+        )}
       </Button>
     </div>
   );

@@ -35,7 +35,7 @@ const MCQpage = async ({ params: { gameId } }: Props) => {
   }
 
   return (
-    <div className="p-8 mx-auto max-w-7xl min-h-screen flex justify-center">
+    <div className="p-8 mx-auto max-w-7xl min-h-screen flex justify-center items-center">
       <MCQ game={game} />
     </div>
   );
