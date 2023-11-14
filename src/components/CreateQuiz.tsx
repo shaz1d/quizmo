@@ -61,26 +61,26 @@ const CreateQuiz = ({ session }: Props) => {
         amount: input.amount,
         topic: input.topic,
         type: input.type,
+      },
+      {
+        onSuccess: ({ gameId, error }: { gameId: string; error: any }) => {
+          if (gameId !== undefined) {
+            if (form.getValues("type") == "open_ended") {
+              router.push(`/play/open-ended/${gameId}`);
+            } else {
+              router.push(`/play/mcq/${gameId}`);
+            }
+          } else {
+            console.log(error);
+          }
+        },
+        onError(error, variables, context) {
+          alert({
+            error,
+            variables,
+          });
+        },
       }
-      // {
-      //   onSuccess: ({ gameId, error }: { gameId: string; error: any }) => {
-      //     if (gameId !== undefined) {
-      //       if (form.getValues("type") == "open_ended") {
-      //         router.push(`/play/open-ended/${gameId}`);
-      //       } else {
-      //         router.push(`/play/mcq/${gameId}`);
-      //       }
-      //     } else {
-      //       console.log(error);
-      //     }
-      //   },
-      //   onError(error, variables, context) {
-      //     alert({
-      //       error,
-      //       variables,
-      //     });
-      //   },
-      // }
     );
   };
   return (

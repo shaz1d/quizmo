@@ -8,7 +8,7 @@ import {
 import Image from "next/image";
 import SignOutButton from "./SignOutButton";
 type Props = {
-  user: Pick<User, "name" | "image" | "email">;
+  user: Pick<User, "name" | "image" | "email" | "id">;
 };
 
 const UserNav = ({ user }: Props) => {
