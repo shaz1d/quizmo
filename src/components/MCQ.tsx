@@ -1,7 +1,7 @@
 "use client";
 
 import { Game, Question } from "@prisma/client";
-import { CheckCircle2, XCircleIcon, Timer } from "lucide-react";
+import { CheckCircle2, XCircleIcon, Timer, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Card, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
@@ -30,7 +30,7 @@ const MCQ = ({ game }: Props) => {
   }, [currentQuestion]);
 
   return (
-    <div className="w-full max-w-lg">
+    <div className="w-full max-w-lg flex flex-col">
       <p>
         Topic:{" "}
         <span className="bg-black rounded-sm px-2 py-1 text-white">
@@ -87,6 +87,9 @@ const MCQ = ({ game }: Props) => {
           </Button>
         ))}
       </div>
+      <Button className=" mt-5 self-center items-center gap-2">
+        Next <ChevronRight className="h-4 w-4 mt-[2px]" />
+      </Button>
     </div>
   );
 };
