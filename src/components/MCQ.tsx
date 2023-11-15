@@ -9,7 +9,7 @@ import {
   Loader2,
   BarChart,
 } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Card, CardHeader, CardTitle } from "./ui/card";
 import { Button, buttonVariants } from "./ui/button";
 import { useMutation } from "@tanstack/react-query";
@@ -18,6 +18,8 @@ import { z } from "zod";
 import { checkAnswerSchema } from "@/schemas/form/quiz";
 import { useToast } from "./ui/use-toast";
 import Link from "next/link";
+import { formatTimeDelta } from "@/lib/utils";
+import { differenceInSeconds } from "date-fns";
 
 type Props = {
   game: Game & {
@@ -30,6 +32,19 @@ const MCQ = ({ game }: Props) => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
   const [hasEnded, setHasEnded] = useState(false);
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!hasEnded) {
+        setNow(new Date());
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [hasEnded]);
 
   const { toast } = useToast();
   const currentQuestion = useMemo(() => {
@@ -88,7 +103,8 @@ const MCQ = ({ game }: Props) => {
     return (
       <div className="w-full h-auto max-w-md  shadow-lg rounded-lg p-8 flex flex-col items-center">
         <p className="bg-green-500 text-white px-3 py-2 w-full rounded-md mb-3">
-          You Completed in 4m 45s
+          You Completed in{" "}
+          {formatTimeDelta(differenceInSeconds(now, game.timeStarted))}
         </p>
         <Link href={`/statistics/${game.id}`} className={buttonVariants()}>
           {" "}
@@ -109,7 +125,9 @@ const MCQ = ({ game }: Props) => {
       <div className="flex justify-between items-center gap-5 mt-2">
         <div className="flex items-center gap-1">
           <Timer />
-          <span>18s</span>
+          <span>
+            {formatTimeDelta(differenceInSeconds(now, game.timeStarted))}
+          </span>
         </div>
         <div className="flex items-center gap-8  px-3 py-2 border border-gray-300 rounded-md">
           <div className="text-green-500 flex text-xl items-center gap-2">
