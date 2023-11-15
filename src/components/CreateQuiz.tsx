@@ -28,12 +28,9 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-type Props = {
-  session: string;
-};
 type Input = z.infer<typeof createQuizSchema>;
 
-const CreateQuiz = ({ session }: Props) => {
+const CreateQuiz = () => {
   const router = useRouter();
   const { mutate: getQuestions, isPending } = useMutation({
     mutationFn: async ({ amount, topic, type }: Input) => {
@@ -74,7 +71,7 @@ const CreateQuiz = ({ session }: Props) => {
             console.log(error);
           }
         },
-        onError(error, variables, context) {
+        onError(error, variables) {
           alert({
             error,
             variables,
