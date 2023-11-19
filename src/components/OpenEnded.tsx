@@ -21,6 +21,7 @@ import { checkAnswerSchema } from "@/schemas/form/quiz";
 import { z } from "zod";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
+import BlankAnswerInput from "./BlankAnswerInput";
 
 type Props = {
   game: Game & {
@@ -127,7 +128,9 @@ const OpenEnded = ({ game }: Props) => {
           </CardTitle>
         </CardHeader>
       </Card>
-      <div className="flex flex-col w-full mt-4 gap-3"></div>
+      <div className="flex flex-col w-full mt-4 gap-3">
+        <BlankAnswerInput answer={currentQuestion.answer} />
+      </div>
       <Button
         className=" mt-5 self-center items-center gap-2"
         disabled={isChecking}
