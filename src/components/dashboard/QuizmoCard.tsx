@@ -17,6 +17,7 @@ const QuizmoCard = () => {
       onClick={() => {
         router.push("/quiz");
       }}
+      className=" cursor-pointer"
     >
       <CardHeader>
         <CardTitle className="text-2xl">Quiz Me! 🚀</CardTitle>
