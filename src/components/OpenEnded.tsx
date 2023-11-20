@@ -9,8 +9,6 @@ import { Button, buttonVariants } from "./ui/button";
 import {
   BarChart,
   Timer,
-  CheckCircle2,
-  XCircleIcon,
   Loader2,
   ChevronRight,
   TargetIcon,
@@ -31,6 +29,7 @@ type Props = {
 
 const OpenEnded = ({ game }: Props) => {
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [blankAnswer, setBlankAnswer] = useState("");
   const [hasEnded, setHasEnded] = useState(false);
   const [now, setNow] = useState(new Date());
   const { toast } = useToast();
@@ -63,6 +62,7 @@ const OpenEnded = ({ game }: Props) => {
 
   const handleNext = useCallback(() => {
     if (isChecking) return;
+
     checkAnswer(undefined, {
       onSuccess: ({ percentSimilar }) => {
         toast({
@@ -129,7 +129,10 @@ const OpenEnded = ({ game }: Props) => {
         </CardHeader>
       </Card>
       <div className="flex flex-col w-full mt-4 gap-3">
-        <BlankAnswerInput answer={currentQuestion.answer} />
+        <BlankAnswerInput
+          answer={currentQuestion.answer}
+          setBlankAnswer={setBlankAnswer}
+        />
       </div>
       <Button
         className=" mt-5 self-center items-center gap-2"
