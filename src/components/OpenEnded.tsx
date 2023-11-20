@@ -6,13 +6,7 @@ import { differenceInSeconds } from "date-fns";
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
-import {
-  BarChart,
-  Timer,
-  Loader2,
-  ChevronRight,
-  TargetIcon,
-} from "lucide-react";
+import { BarChart, Timer, Loader2, ChevronRight } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "./ui/card";
 import { useToast } from "./ui/use-toast";
 import { checkAnswerSchema } from "@/schemas/form/quiz";
@@ -41,9 +35,11 @@ const OpenEnded = ({ game }: Props) => {
   const { mutate: checkAnswer, isPending: isChecking } = useMutation({
     mutationFn: async () => {
       let filledAnswer = blankAnswer;
-      document.querySelectorAll(".blank_input").forEach((input) => {
-        filledAnswer = filledAnswer.replace("_____", input.value);
-        input.value = "";
+
+      document.querySelectorAll(".blank_input").forEach((input: Element) => {
+        const inputEl = input as HTMLInputElement;
+        filledAnswer = filledAnswer.replace("_____", inputEl.value);
+        inputEl.value = "";
       });
       const payload: z.infer<typeof checkAnswerSchema> = {
         questionId: currentQuestion.id,
