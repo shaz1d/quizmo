@@ -40,9 +40,14 @@ const OpenEnded = ({ game }: Props) => {
 
   const { mutate: checkAnswer, isPending: isChecking } = useMutation({
     mutationFn: async () => {
+      let filledAnswer = blankAnswer;
+      document.querySelectorAll(".blank_input").forEach((input) => {
+        filledAnswer = filledAnswer.replace("_____", input.value);
+        input.value = "";
+      });
       const payload: z.infer<typeof checkAnswerSchema> = {
         questionId: currentQuestion.id,
-        userAnswer: "",
+        userAnswer: filledAnswer,
       };
       const response = await axios.post("/api/checkAnswer", payload);
       return response.data;
@@ -108,12 +113,12 @@ const OpenEnded = ({ game }: Props) => {
             {formatTimeDelta(differenceInSeconds(now, game.timeStarted))}
           </span>
         </div>
-        <div className="flex items-center gap-8  px-3 py-2 border border-gray-300 rounded-md">
+        {/* <div className="flex items-center gap-8  px-3 py-2 border border-gray-300 rounded-md">
           <div className="text-green-500 flex text-xl items-center gap-2">
             <TargetIcon />
             <span>94%</span>
           </div>
-        </div>
+        </div> */}
       </div>
       <Card className="w-full mt-4">
         <CardHeader>

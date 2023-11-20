@@ -35,16 +35,12 @@ const BlankAnswerInput = ({ answer, setBlankAnswer }: Props) => {
             <h2 key={index} className=" inline">
               {part}
               {index === answerWithBlanks.split(BLANKS).length - 1 ? null : (
-                <input
-                  id="user-blank-input"
-                  className="text-center border-black dark:border-white border-b-2 w-28 accent-black"
-                />
+                <input className="blank_input text-center border-black dark:border-white border-b-2 w-28 accent-black" />
               )}
             </h2>
           );
         })}
       </div>
-      <h2>{answer}</h2>
     </div>
   );
 };
