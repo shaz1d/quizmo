@@ -11,4 +11,5 @@ export const createQuizSchema = z.object({
 export const checkAnswerSchema = z.object({
   questionId: z.string(),
   userAnswer: z.string(),
+  timeEnded: z.coerce.date().nullable(),
 });

@@ -4,6 +4,8 @@ import TimeTakenCard from "@/components/statistics/TimeTakenCard";
 import { buttonVariants } from "@/components/ui/button";
 import { prisma } from "@/lib/db";
 import { getAuthSession } from "@/lib/nextauth";
+import { formatTimeDelta } from "@/lib/utils";
+import { differenceInSeconds } from "date-fns";
 import { LucideLayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -53,6 +55,10 @@ const Statistics = async ({ params: { gameId } }: Props) => {
 
   accuracy = Math.round(accuracy * 100) / 100;
 
+  const timeTaken = formatTimeDelta(
+    differenceInSeconds(game.timeEnded as Date, game.timeStarted)
+  );
+
   return (
     <div className="p-8 mx-auto max-w-7xl min-h-screen">
       <div className="flex justify-between gap-8 items-center">
@@ -65,7 +71,7 @@ const Statistics = async ({ params: { gameId } }: Props) => {
       <div className="grid sm:grid-cols-3 gap-5 mt-8">
         <AccuracyCard accuracy={accuracy} />
         <ResultCard accuracy={accuracy} />
-        <TimeTakenCard />
+        <TimeTakenCard timeTaken={timeTaken} />
       </div>
       <div className="mt-8">
         <pre>{JSON.stringify(game, null, 2)}</pre>

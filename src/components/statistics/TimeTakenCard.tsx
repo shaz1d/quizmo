@@ -6,9 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-type Props = {};
+type Props = {
+  timeTaken: string;
+};
 
-const TimeTakenCard = (props: Props) => {
+const TimeTakenCard = ({ timeTaken }: Props) => {
   return (
     <Card>
       <CardHeader>
@@ -17,7 +19,7 @@ const TimeTakenCard = (props: Props) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="text-center">
-        <h2 className="text-3xl font-bold text-green-500">{90}</h2>
+        <h2 className="text-3xl font-bold text-green-500">{timeTaken}</h2>
       </CardContent>
     </Card>
   );
