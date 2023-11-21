@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -27,10 +27,12 @@ import { BookOpen, CopyCheck } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import LoadingQuestion from "./LoadingQuestion";
 
 type Input = z.infer<typeof createQuizSchema>;
 
 const CreateQuiz = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { mutate: getQuestions, isPending } = useMutation({
     mutationFn: async ({ amount, topic, type }: Input) => {
@@ -50,9 +52,9 @@ const CreateQuiz = () => {
       type: "open_ended",
     },
   });
-  form.watch();
 
   const onSubmit = (input: Input) => {
+    setIsLoading(true);
     getQuestions(
       {
         amount: input.amount,
@@ -61,6 +63,7 @@ const CreateQuiz = () => {
       },
       {
         onSuccess: ({ gameId, error }: { gameId: string; error: any }) => {
+          setIsLoading(false);
           if (gameId !== undefined) {
             if (form.getValues("type") == "open_ended") {
               router.push(`/play/open-ended/${gameId}`);
@@ -72,6 +75,7 @@ const CreateQuiz = () => {
           }
         },
         onError(error, variables) {
+          setIsLoading(false);
           alert({
             error,
             variables,
@@ -80,6 +84,11 @@ const CreateQuiz = () => {
       }
     );
   };
+
+  form.watch();
+  if (isLoading) {
+    return <LoadingQuestion></LoadingQuestion>;
+  }
   return (
     <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
       <Card>

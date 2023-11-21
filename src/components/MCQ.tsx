@@ -65,6 +65,7 @@ const MCQ = ({ game }: Props) => {
       const payload: z.infer<typeof checkAnswerSchema> = {
         questionId: currentQuestion.id,
         userAnswer: options[choiceSelected],
+        timeEnded: questionIndex === game.questions.length - 1 ? now : null,
       };
       const response = await axios.post("/api/checkAnswer", payload);
       return response.data;
