@@ -7,16 +7,23 @@ import {
   CardTitle,
 } from "../ui/card";
 
-type Props = {};
+type Props = {
+  accuracy: number;
+};
 
-const AccuracyCard = (props: Props) => {
+const AccuracyCard = ({ accuracy }: Props) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Accuracy 🚀</CardTitle>
-        <CardDescription>Challange yourself with a quiz!</CardDescription>
+        <CardTitle className="text-2xl flex justify-between gap-5">
+          <span>Accuracy</span> <span>🎯</span>
+        </CardTitle>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent className="text-center">
+        <CardDescription>
+          <h2 className="text-3xl font-bold text-green-500">{accuracy}%</h2>
+        </CardDescription>
+      </CardContent>
     </Card>
   );
 };

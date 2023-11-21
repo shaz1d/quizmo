@@ -12,10 +12,13 @@ const TimeTakenCard = (props: Props) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Time Taken 🚀</CardTitle>
-        <CardDescription>Challange yourself with a quiz!</CardDescription>
+        <CardTitle className="text-2xl flex justify-between gap-5">
+          <span>Time Taken</span> <span>⌛</span>
+        </CardTitle>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent className="text-center">
+        <h2 className="text-3xl font-bold text-green-500">{90}</h2>
+      </CardContent>
     </Card>
   );
 };

@@ -24,21 +24,32 @@ const Statistics = async ({ params: { gameId } }: Props) => {
   const game = await prisma.game.findUnique({
     where: { id: gameId },
     include: {
-      questions: {
-        select: {
-          id: true,
-          question: true,
-          answer: true,
-          userAnswer: true,
-          percentageCorrect: true,
-        },
-      },
+      questions: true,
     },
   });
 
   if (!game) {
     return redirect("/");
   }
+
+  let accuracy: number = 0;
+  if (game.gameType === "mcq") {
+    let totalCorrect = game.questions.reduce((acc, question) => {
+      if (question.isCorrect) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+    accuracy = (totalCorrect / game.questions.length) * 100;
+  } else if (game.gameType === "open_ended") {
+    let totalPersentage = game.questions.reduce((acc, question) => {
+      return acc + (question.percentageCorrect || 0);
+    }, 0);
+
+    accuracy = totalPersentage / game.questions.length;
+  }
+  accuracy = Math.round(accuracy * 100) / 100;
+
   return (
     <div className="p-8 mx-auto max-w-7xl min-h-screen">
       <div className="flex justify-between gap-8 items-center">
@@ -49,8 +60,8 @@ const Statistics = async ({ params: { gameId } }: Props) => {
         </Link>
       </div>
       <div className="grid sm:grid-cols-3 gap-5 mt-8">
-        <AccuracyCard />
-        <ResultCard />
+        <AccuracyCard accuracy={accuracy} />
+        <ResultCard accuracy={accuracy} />
         <TimeTakenCard />
       </div>
       <div className="mt-8">
