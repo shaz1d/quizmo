@@ -1,4 +1,3 @@
-import HotTopicsCard from "@/components/dashboard/HotTopicsCard";
 import QuizmoCard from "@/components/dashboard/QuizmoCard";
 import QuizmoHistory from "@/components/dashboard/QuizmoHistory";
 import RecentActivityCard from "@/components/dashboard/RecentActivityCard";
@@ -27,8 +26,7 @@ const Dashboard = async (props: Props) => {
         <QuizmoCard />
         <QuizmoHistory />
       </div>
-      <div className="grid gap-4 mt-4 md:grid-cols-2">
-        <HotTopicsCard />
+      <div className="mt-4">
         <RecentActivityCard />
       </div>
     </main>
