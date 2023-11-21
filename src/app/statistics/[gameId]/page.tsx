@@ -1,4 +1,5 @@
 import AccuracyCard from "@/components/statistics/AccuracyCard";
+import QuestionList from "@/components/statistics/QuestionList";
 import ResultCard from "@/components/statistics/ResultCard";
 import TimeTakenCard from "@/components/statistics/TimeTakenCard";
 import { buttonVariants } from "@/components/ui/button";
@@ -74,7 +75,7 @@ const Statistics = async ({ params: { gameId } }: Props) => {
         <TimeTakenCard timeTaken={timeTaken} />
       </div>
       <div className="mt-8">
-        <pre>{JSON.stringify(game, null, 2)}</pre>
+        <QuestionList questions={game.questions}></QuestionList>
       </div>
     </div>
   );
