@@ -32,6 +32,7 @@ const Statistics = async ({ params: { gameId } }: Props) => {
     return redirect("/");
   }
 
+  // Accuracy calculation for questions
   let accuracy: number = 0;
   if (game.gameType === "mcq") {
     let totalCorrect = game.questions.reduce((acc, question) => {
@@ -40,6 +41,7 @@ const Statistics = async ({ params: { gameId } }: Props) => {
       }
       return acc;
     }, 0);
+
     accuracy = (totalCorrect / game.questions.length) * 100;
   } else if (game.gameType === "open_ended") {
     let totalPersentage = game.questions.reduce((acc, question) => {
@@ -48,6 +50,7 @@ const Statistics = async ({ params: { gameId } }: Props) => {
 
     accuracy = totalPersentage / game.questions.length;
   }
+
   accuracy = Math.round(accuracy * 100) / 100;
 
   return (
