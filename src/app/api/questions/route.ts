@@ -1,11 +1,9 @@
 import { strict_output } from "@/lib/gpt";
-import { getAuthSession } from "@/lib/nextauth";
 import { createQuizSchema } from "@/schemas/form/quiz";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
 export const runtime = "nodejs";
-export const maxDuration = 500;
 
 export async function POST(req: Request, res: Response) {
   try {
