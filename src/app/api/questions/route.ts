@@ -3,8 +3,6 @@ import { createQuizSchema } from "@/schemas/form/quiz";
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
-export const runtime = "nodejs";
-
 export async function POST(req: Request, res: Response) {
   try {
     // const session = await getAuthSession();
