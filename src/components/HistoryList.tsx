@@ -19,10 +19,13 @@ const HistoryList = async ({ limit, userId }: Props) => {
     },
   });
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-wrap gap-5 ">
       {games.map((game) => {
         return (
-          <div className="flex gap-4 items-center" key={game.id}>
+          <div
+            className="flex gap-4 items-center py-3 px-4 border border-gray-300 rounded-xl"
+            key={game.id}
+          >
             {game.gameType === "mcq" ? <CopyCheck></CopyCheck> : <Edit></Edit>}
             <div>
               <div className="w-full flex gap-4 justify-between">

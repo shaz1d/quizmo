@@ -19,6 +19,7 @@ const QuizmoHistory = (props: Props) => {
       onClick={() => {
         router.push("/history");
       }}
+      className="cursor-pointer"
     >
       <CardHeader>
         <CardTitle className="text-2xl">History 🕤</CardTitle>
