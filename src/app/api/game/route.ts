@@ -5,6 +5,9 @@ import { ZodError } from "zod";
 import { prisma } from "@/lib/db";
 import axios from "axios";
 
+export const runtime = "nodejs";
+export const maxDuration = 10;
+
 export async function POST(req: Request, res: Response) {
   try {
     const session = await getAuthSession();
@@ -20,14 +23,6 @@ export async function POST(req: Request, res: Response) {
     }
     const body = await req.json();
     const { amount, topic, type } = createQuizSchema.parse(body);
-    const game = await prisma.game.create({
-      data: {
-        userId: session.user.id,
-        timeStarted: new Date(),
-        topic,
-        gameType: type,
-      },
-    });
     const { data } = await axios.post(
       `${process.env.API_URL as string}/api/questions`,
       {
@@ -36,6 +31,14 @@ export async function POST(req: Request, res: Response) {
         type,
       }
     );
+    const game = await prisma.game.create({
+      data: {
+        userId: session.user.id,
+        timeStarted: new Date(),
+        topic,
+        gameType: type,
+      },
+    });
 
     if (type === "mcq") {
       type mcqQuestion = {
