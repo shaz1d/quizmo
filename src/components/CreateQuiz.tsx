@@ -76,7 +76,7 @@ const CreateQuiz = () => {
         },
         onError(error, variables) {
           setIsLoading(false);
-          alert({
+          console.log({
             error,
             variables,
           });
