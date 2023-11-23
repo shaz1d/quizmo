@@ -6,7 +6,7 @@ import { prisma } from "@/lib/db";
 import { strict_output } from "@/lib/gpt";
 
 export const runtime = "nodejs";
-export const maxDuration = 100;
+export const maxDuration = 10;
 
 export async function POST(req: Request, res: Response) {
   try {
